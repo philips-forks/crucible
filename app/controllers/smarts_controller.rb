@@ -63,7 +63,7 @@ class SmartsController < ApplicationController
     # Configure the FHIR Client
     client = FHIR::Client.new(fhir_url)
     version = client.detect_version
-    client.set_bearer_token(token)
+    client.set_bearer_token("##token##")
     client.default_json
 
     # Check FHIR client
@@ -481,6 +481,7 @@ class SmartsController < ApplicationController
     client = FHIR::Client.new(issuer)
     client.default_json
     client.get_oauth2_metadata_from_conformance
+    client.set_bearer_token("##token##")
   end
 
   def get_config

@@ -63,6 +63,7 @@ class Server
     updated = false
     if (self.conformance.nil? || refresh)
       client = FHIR::Client.new(self.url)
+      client.set_bearer_token("##token##")
       @raw_conformance ||= client.conformance_statement
       self.conformance = @raw_conformance.to_json
       self.supported_tests = []
@@ -183,15 +184,6 @@ class Server
   end
 
   def available?
-    begin
-      available = (RestClient::Request.execute(:method => :get, :url => self.url+'/metadata', :timeout => 30, :open_timeout => 30, headers: {:accept => "#{FHIR::Formats::ResourceFormat::RESOURCE_JSON},#{FHIR::Formats::ResourceFormat::RESOURCE_XML},#{FHIR::Formats::ResourceFormat::RESOURCE_JSON_DSTU2},#{FHIR::Formats::ResourceFormat::RESOURCE_XML_DSTU2},application/xml,application/json"})).match /CapabilityStatement|Conformance/
-      unless available
-        return false
-      end
-    rescue
-      return false
-    end
-
     true
   end
 
