@@ -62,8 +62,6 @@ class TestRun
       return false
     end
 
-    self.server.load_conformance(true) if self.nightly # refresh conformance statement on nightlies
-
     # pull all the tests into memory with .map {} so that the cursor doesn't time out
     # sort because mongoid does not retain order using self.tests; only retains order when using test_ids
     self.tests.map {|n| n}.sort {|a, b| test_ids.index(a.id) <=> test_ids.index(b.id) }.each_with_index do |t, i|
@@ -98,13 +96,7 @@ class TestRun
 
         if t.resource_class?
           resource = t.resource_class.constantize
-
-          if self.fhir_version.downcase == 'dstu2'
-            resource = "FHIR::DSTU2::#{t.resource_class.demodulize}".constantize
-          elsif self.fhir_version.downcase == 'stu3'
-            resource = "FHIR::STU3::#{t.resource_class.demodulize}".constantize
-          end
-
+          resource = "FHIR::STU3::#{t.resource_class.demodulize}".constantize
           val = test.execute(resource).values.first
         else
           val = test.execute().values.first
