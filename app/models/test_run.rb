@@ -50,6 +50,7 @@ class TestRun
     # client2 = FHIR::Client.new(result.test_run.destination_server.url) if result.test_run.is_multiserver
     # TODO: figure out multi server
     client1.set_bearer_token("##token##")
+    client1.additional_headers = { "api-version" => "1" }
     
     client2 = nil
 

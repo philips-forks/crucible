@@ -13,6 +13,7 @@ class TestResult
   def reissue_request(test_id, request_index)
     client = FHIR::Client.new(self.server.url)
     client.set_bearer_token("##token##")    
+    client.additional_headers = { "api-version" => "1" }
     client.default_format = self.server.default_format if self.server.default_format
     request = self.result.find{|t| t['id'] == test_id}['requests'][request_index]['request']
 
