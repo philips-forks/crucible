@@ -64,7 +64,7 @@ class Server
     if (self.conformance.nil? || refresh)
       client = FHIR::Client.new(self.url)
       client.set_bearer_token("##token##")
-      client.additional_headers = { "api-version" => "1" }
+      client.additional_headers = { "api-version" => "1", "X-validate-resource" => "false" }
       @raw_conformance ||= client.conformance_statement
       self.conformance = @raw_conformance.to_json
       self.supported_tests = []
