@@ -278,7 +278,7 @@ class Server
   def extract_version_from_conformance
     # Set toHSDP CDR Version
     self.fhir_sequence = 'STU3'
-    self.fhir_version = '3.0.0.1'
+    self.fhir_version = '3.0.1'
     self.save
   end
 
